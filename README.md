@@ -21,4 +21,4 @@
 * When you send data to Vault for encryption, it must be in the form of base64-encoded plaintext for safe transport.
 * The plugin directory is a configuration option of Vault, and can be specified in the configuration file. This setting specifies a directory in which all plugin binaries must live; this value cannot be a symbolic link. A plugin can not be added to Vault unless it exists in the plugin directory. There is no default for this configuration option, and if it is not set plugins can not be added to Vault.
 * When enabled, auth methods are similar to secrets engines: they are mounted within the Vault mount table and can be accessed and configured using the standard read/write API. All auth methods are mounted underneath the ```auth/``` prefix. By default, auth methods are mounted to auth/<type>. For example, if you enable "github", then you can interact with it at ```auth/github```.
-* 
+* In order to browse through the UI, the user needs **list** permissions on all paths leading up to the path in which they are allowed to read.
