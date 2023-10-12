@@ -22,3 +22,13 @@
 * The plugin directory is a configuration option of Vault, and can be specified in the configuration file. This setting specifies a directory in which all plugin binaries must live; this value cannot be a symbolic link. A plugin can not be added to Vault unless it exists in the plugin directory. There is no default for this configuration option, and if it is not set plugins can not be added to Vault.
 * When enabled, auth methods are similar to secrets engines: they are mounted within the Vault mount table and can be accessed and configured using the standard read/write API. All auth methods are mounted underneath the ```auth/``` prefix. By default, auth methods are mounted to auth/<type>. For example, if you enable "github", then you can interact with it at ```auth/github```.
 * In order to browse through the UI, the user needs **list** permissions on all paths leading up to the path in which they are allowed to read.
+* Replication relies on having a shared keyring between primary and secondaries and also relies on having a shared understanding of the data store state. As a result, when replication is enabled, all of the secondary's existing storage will be wiped.
+* To grant access to generate database credentials, the policy would grant read access on the appropriate path.
+* Tokens can be renewed with the vault token renew command. If not renewing the locally authenticated token, you need to signify what token should be renewed by either the **token_id** or the **token accessor**.
+* The system max TTL, which is 768 hours, or 32 days.
+* The AD secrets engine rotates AD passwords dynamically. It does not, however, dynamically generate the AD account. The AD account must exist prior to configuring it in Vault.
+* Before Vault can be used, it must be initialized and unsealed.
+* Plugins are the components in Vault that can be implemented separately from Vault's built-in backends.
+* Using replication requires a storage backend that supports transactional updates, such as Consul. This allows multiple key/value updates to be performed atomically. Replication uses this to maintain a Write-Ahead-Log (WAL) of all updates so that the key update happens atomically with the WAL entry creation.
+* Dev server mode stores its data in memory, therefore if the Vault service is shut down, any data stored will be lost. Additionally, dev server mode does not use TLS, and all data is sent in cleartext.
+* 
