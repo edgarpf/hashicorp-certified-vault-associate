@@ -31,4 +31,15 @@
 * Plugins are the components in Vault that can be implemented separately from Vault's built-in backends.
 * Using replication requires a storage backend that supports transactional updates, such as Consul. This allows multiple key/value updates to be performed atomically. Replication uses this to maintain a Write-Ahead-Log (WAL) of all updates so that the key update happens atomically with the WAL entry creation.
 * Dev server mode stores its data in memory, therefore if the Vault service is shut down, any data stored will be lost. Additionally, dev server mode does not use TLS, and all data is sent in cleartext.
+* Vault is sending the request over HTTPS, but Vault is responding using HTTP since TLS is disabled. In this case, you should set the VAULT_ADDR environment variable to http://127.0.0.1:8200. This is true if you're running Vault Dev server as well.
+* The Cubbyhole secret engine is a default secrets engine that is enabled for each Vault token.
+* Batch tokens are encrypted blobs that carry enough information for them to be used for Vault actions, but they require no storage on disk to track them. As a result, they are extremely lightweight and scalable but lack most of the flexibility and features of service tokens.
+* The /sys/leader endpoint is used to check the high availability status and current leader of Vault.
+* **https://vault.krausen.com:8200/v1/sys/tools/random/164*** endpoint returns high-quality random bytes of the specified length.
+* Vault has many ports, however, replication occurs on port tcp/8201.
+* The TTL defines when the token will expire. If the token reaches its TTL, it will be immediately revoked by Vault. The Max TTL defines the maximum timeframe for which the token can be renewed. Once the max TTL is reached, the token cannot be renewed any longer and will be revoked.
+* The kv delete command deletes the data for the provided path in the key/value secrets engine. If using K/V Version 2, its versioned data will not be fully removed but marked as deleted and will no longer be returned in normal get requests.
+* The kv destroy command permanently removes the specified versions' data from the key/value secrets engine. If no key exists at the path, no action is taken.
+* The kv metadata delete command deletes all versions and metadata for the provided key.
 * 
+
