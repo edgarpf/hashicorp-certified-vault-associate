@@ -41,5 +41,12 @@
 * The kv delete command deletes the data for the provided path in the key/value secrets engine. If using K/V Version 2, its versioned data will not be fully removed but marked as deleted and will no longer be returned in normal get requests.
 * The kv destroy command permanently removes the specified versions' data from the key/value secrets engine. If no key exists at the path, no action is taken.
 * The kv metadata delete command deletes all versions and metadata for the provided key.
-* 
+* All plaintext data must be base64-encoded. The reason for this requirement is that Vault does not require that the plaintext is "text".
+* The command vault **kv delete** only deletes the current version of the secret, and by delete, I mean it does a "soft" delete. All the remaining versions (if any) will still exist - so will the metadata.
+* The following policy will give access to anything in Vault. 
+  ```
+  path "*" {
+    capabilities = ["create", "update", "read", "list", "delete", "sudo"]
+  }
+  ```
 
