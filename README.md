@@ -53,4 +53,12 @@
 By keeping TTLs relatively short, revocations are less likely to be needed, keeping CRLs short and helping the secrets engine scale to large workloads. This, in turn, allows each instance of a running application to have a unique certificate, eliminating sharing and the accompanying pain of revocation and rollover.
 In addition, by allowing revocation to mostly be forgone, this secrets engine allows for ephemeral certificates. Certificates can be fetched and stored in memory upon application startup and discarded upon shutdown, without ever being written to disk.
 * Each auth method serves a different purpose, and some auth methods are better suited for machine authentication rather than used by human users. Examples of machine auth methods include AppRole, Cloud-based auth methods, tokens, TLS, Kubernetes, and Radius. Examples of human auth methods include Okta, LDAP, GitHub, OIDC, and userpass.
+* The plus sign (+) can be used to denote a path segment and can be used in the middle of a path. The splat (*) can be used as a wildcard but can only be used at the very end of a path.
+* The userpass auth method uses a local database that cannot interact with any services outside of the Vault instance.
+* When creating a dynamic secret, Vault always returns a lease_id. This lease_id can be used to do a **vault lease renew** or a **vault lease revoke** command to manage the lease of a secret.
+* **vault lease revoke -force -prefix <lease_path>** can be run to make Vault remove the secret.
+* The transit secrets engine handles cryptographic functions on data in-transit. Vault doesn't store the data sent to the secrets engine. It can also be viewed as "cryptography as a service" or "encryption as a service". The transit secrets engine can also sign and verify data; generate hashes and HMACs of data; and act as a source of random bytes.
+* Vault creates two default policies, root and default. The root policy cannot be deleted or modified. The default policy is attached to all tokens, by default, however, this action can be modified if needed.
+* VAULT_TOKEN defines that Vault authentication token. Conceptually similar to a session token on a website, the VAULT_TOKEN environment variable holds the contents of the token.
+* Non-root tokens are associated with a TTL, which determines for how long a token is valid. Root tokens are not associated with a TTL, and therefore, do not expire.
 * 
