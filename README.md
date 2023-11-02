@@ -79,3 +79,24 @@ In addition, by allowing revocation to mostly be forgone, this secrets engine al
 * To login with a token, you can use **vault login hvs.hxDIPd8RPVtxu4AzSGS1lArP** or even **vault login -method=token hvs.hxDIPd8RPVtxu4AzSGS1lArP** if you like typing more.
 * If the UI doesn't support a required configuration, the user can potentially use the Vault CLI Browser to execute simple write, read, delete, and list commands.
 * Vault Agent is a client daemon that provides auto-auth, caching, and templating.
+* The **vault lease revoke** command is used to revoke leases. Using the **-prefix** flag allows you to revoke entire trees of secrets.
+* Vault has many secrets engines that can generate dynamic credentials, including AWS, Azure, and database secrets engines. The key/value secret engine is used to store data, the transit secret engine is used to encrypt data.
+* By default, Vault starts the Vault service on port 8200. Cluster-to-cluster communication and replication is done over 8201.
+* Storage backends, cluster names, and seal types are just a few of the configurations done via the configuration file. The others are configured within Vault itself.
+* When writing a policy in Vault, permissions which can be applied to paths include create, read, update, delete, list, deny, and sudo
+* In order to log in to Vault via the CLI, you would issue the command 'vault login' and then the type of login.
+* Vault supports AWS, Azure, Google Cloud, and Alibaba Cloud out of the box for secrets engines.
+* The process of unsealing is used to reconstruct the master key, which is used to decrypt the encryption key which can unencrypt the data on the storage backend.
+* The **vault operator step-down** forces the Vault server at the given address to step down from active duty. While the affected node will have a delay before attempting to acquire the leader lock again, if no other Vault nodes acquire the lock beforehand, it is possible for the same node to re-acquire the lock and become active again.
+* The **lease revoke** command revokes the lease on a secret, invalidating the underlying secret. To revoke a lease, you can specify the path and lease ID attached to the creds. Once executed, the credentials on the backend platform are immediately revoked and no longer valid.
+* A token accessor is created alongside of each token, and the accessor can be used to perform limited actions against the token, including looking up the token's properties, renewing the token, and even revoking the token.
+* To initialize Vault, use the command 'vault operator init'.
+* Although Vault has many benefits, Vault does not provide service discovery for micro-segmentation.
+* The UI is enabled in the Vault configuration file, not the CLI.
+* All backend system functions live in the /sys backend. Policies should take /sys into account when users need to administer Vault configurations.
+* When having a token be revoked would be problematic, root or sudo users have the ability to generate periodic tokens. Periodic tokens have a TTL, but no max TTL. Periodic tokens may live for an infinite amount of time, so long as they are renewed within their TTL.
+* For day-to-day operations, the root token should be deleted after configuring other auth methods which will be used by admins and Vault clients.
+* While Vault is sealed, the only two options available are viewing the vault status (vault status) and unsealing Vault (vault operator unseal).
+* When a parent token is revoked, all of its child tokens -- and all of their leases -- are revoked as well.
+* To list all enabled secrets engines with detailed output, use the command **vault secrets list -detailed**.
+* 
