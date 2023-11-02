@@ -61,4 +61,21 @@ In addition, by allowing revocation to mostly be forgone, this secrets engine al
 * Vault creates two default policies, root and default. The root policy cannot be deleted or modified. The default policy is attached to all tokens, by default, however, this action can be modified if needed.
 * VAULT_TOKEN defines that Vault authentication token. Conceptually similar to a session token on a website, the VAULT_TOKEN environment variable holds the contents of the token.
 * Non-root tokens are associated with a TTL, which determines for how long a token is valid. Root tokens are not associated with a TTL, and therefore, do not expire.
-* 
+* In order to enable auth methods, the command should be **vault auth <enable/disable>** followed by the name of the auth method.
+* The Vault configuration file supports either JSON or HCL, which is HashiCorp Configuration Language.
+* The KVv2 store uses a prefixed API, which is different from the version 1 API. Writing and reading versions are prefixed with the data/ path. I
+* A lease must be renewed before it has expired. Once it has expired, it is permanently revoked and a new secret must be requested.
+* After authenticating, a client is issued a service token which is associated with a policy. That token is used to make all subsequent requests to Vault.
+* Key versions that are earlier than a key's specified **min_decryption_version** gets archived, and the rest of the key versions belong to the working set. In an emergency, the **min_decryption_version** can be moved back to allow for legitimate decryption.
+* To write a policy, use the vault policy write command.
+* **allowed_parameters** can be used to permit a list of keys and values that are permitted on the given path. Setting a parameter with a value of the empty list allows the parameter to contain any value.
+* After initializing, Vault provides the user the root token, which is the only way to log in to Vault in order to configure additional auth methods.
+* Vault Transit secrets engine does not support an action to update since Vault does not store any data. You can, however, rewrap data when the key has been rotated to ensure data is encrypted with the latest version.
+* Batch tokens are lightweight and scalable and include just enough information to used with Vault. They are generally used for ephemeral, high-performance workloads, such as encrypting data.
+* Since the encryption key is stored in memory, Vault nodes do not share or replicate the encryption key to other nodes. Therefore, each node needs to individually unseal itself upon Vault initialization or anytime the Vault service is restarted on that node.
+* Auto unseal is used to automatically unseal Vault but using an HSM or cloud HSM service.
+* After authenticating, the UI and CLI automatically assume the token for all subsequent requests.
+* In order to renew a token, a user can issue a **vault token renew** command to extend the TTL. The token can also be renewed using the API.
+* To login with a token, you can use **vault login hvs.hxDIPd8RPVtxu4AzSGS1lArP** or even **vault login -method=token hvs.hxDIPd8RPVtxu4AzSGS1lArP** if you like typing more.
+* If the UI doesn't support a required configuration, the user can potentially use the Vault CLI Browser to execute simple write, read, delete, and list commands.
+* Vault Agent is a client daemon that provides auto-auth, caching, and templating.
