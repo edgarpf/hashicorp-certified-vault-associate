@@ -107,4 +107,12 @@ In addition, by allowing revocation to mostly be forgone, this secrets engine al
 Decrypting the Vault data is a result of unsealing Vault, but the process of unsealing Vault does not directly decrypt the Vault data.
 Vault assumes the value of **https://127.0.0.1:8200** when you make requests to Vault.
 * The token for authentication is set directly as a header for the HTTP API. The header should be either **X-Vault-Token: <token>** or **Authorization: Bearer <token>**.
-* 
+* Static credentials should be used here so they can be controlled outside of Vault. However, these static credentials should still be stored within Vault using the KV secrets engine so they are not stored somewhere in plaintext.
+* You can indeed create and update Vault policies within the UI.
+* Vault Enterprise offers additional features that allow HA nodes to service read-only requests on the local standby node. Read-only requests are requests that do not modify Vault's storage. This feature is called Performance Standby nodes.
+* Beyond Cubbyhole, the KV secrets engine is the ONLY secrets engine that will store static data in Vault for future retrieval. All other secrets engines either generate or encrypt data.
+* The Transit and Transform secrets engine can encrypt/decrypt data can encrypt and decrypt data for Vault clients.
+* To invoke an API on a specific namespace, you can pass the target namespace in the X-Vault-Namespace header or make the namespace as a part of the API endpoint.
+* When authenticating to Vault using the API, Vault will return a token. It is up to the operator or automation to extract the token from the response and submit it as part of subsequent requests
+* https://img-c.udemycdn.com/redactor/raw/test_question_description/2020-11-02_19-17-29-8d5c903a4ba51da193863196626a10f4.png![image](https://github.com/edgarpf/hashicorp-certified-vault-associate/assets/15313093/b2a4642e-c8c5-45c1-bb49-664ac9670270)
+
