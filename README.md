@@ -99,4 +99,12 @@ In addition, by allowing revocation to mostly be forgone, this secrets engine al
 * While Vault is sealed, the only two options available are viewing the vault status (vault status) and unsealing Vault (vault operator unseal).
 * When a parent token is revoked, all of its child tokens -- and all of their leases -- are revoked as well.
 * To list all enabled secrets engines with detailed output, use the command **vault secrets list -detailed**.
+* Dynamic secrets are generated when they are accessed. Dynamic secrets do not exist until they are read, so there is no risk of someone stealing them or another client using the same secrets. Because Vault has built-in revocation mechanisms, dynamic secrets can be revoked immediately after use, minimizing the amount of time the secret existed.
+* Orphan tokens are not children of their parent; therefore, orphan tokens do not expire when their parent does.
+* The default and root policy cannot be deleted. You don't have to use them, but you can't delete them. For the default policy, you can instruct Vault to not assign new tokens the default policy by tuning the Vault configuration by issuing the following command: **vault token create -no-default-policy**.
+* Batch tokens cannot be renewed by Vault, but service tokens can be renewed up to the Max TTL of the token.
+* Unsealing is the process of obtaining the plaintext master key necessary to read the decryption key to decrypt the data, allowing access to the Vault.
+Decrypting the Vault data is a result of unsealing Vault, but the process of unsealing Vault does not directly decrypt the Vault data.
+Vault assumes the value of **https://127.0.0.1:8200** when you make requests to Vault.
+* The token for authentication is set directly as a header for the HTTP API. The header should be either **X-Vault-Token: <token>** or **Authorization: Bearer <token>**.
 * 
