@@ -140,6 +140,30 @@ Orphan tokens are not children of their parent; therefore, do not expire when th
 * When creating the key, the exportable flag must be set as true. By default, it is false. This enables the keys to be exportable.
 * You can use the rewrap feature of the transit secrets engine to rewrap the data with the latest version of the key. This process does not reveal the plaintext data.
 * When no specific TTL is provided, a generated token will inherit the default TTL which is 2764800 seconds (32 days). The same for the maximum TTL.
-  
+* AppRole is an auth method that is better suited for machine-to-machine authentication.
+* Performing a rekey operation using the vault operator rekey command creates new unseal/recovery keys as well as a new master key.
+* If a lease has been created in Vault, it has an associated TTL in which it will expire and be revoked. If the lease needs to be extended for some reason, you can use the command **vault lease renew <lease_id>** to extend the TTL of the lease so it will not expire at its original TTL and will be extended by the time specified in seconds from the current time the lease renewal was issued.
+* Out of the options provided, only two of them are valid headers to use to set the token in a Vault API request.
+X-Vault-Token: <token>
+Authorization: Bearer <token>
+* When creating a policy, only the following capabilities are available in Vault:
+  - Create
+  - Update
+  - Read
+  - Delete
+  - List
+  - Sudo
+  - Deny
+* The big differences between the two types of replication include:
+  * DR replication will replicate all tokens and leases from the primary cluster to the secondary. This means tokens that were valid for the primary cluster are valid for the secondary cluster when it is promoted. However, a DR replication cluster does NOT respond to clients unless it is promoted to a primary.
+  * Performance replication can respond to client requests, but it handles its own tokens and leases. Any tokens or leases that are created on the primary cluster are NOT replicated to the secondary servers. Therefore if you failover to the secondary cluster, applications would need to re-authenticate because the existing tokens would not be valid on the secondary cluster.
+* Vault does not trust the storage backend where it stores its data, therefore all data that is written to the storage backend passing through the cryptographic barrier and is encrypted.
+* When tokens are created, a token accessor is also created and returned to the user/requested. This accessor is a value that acts as a reference to a token and can only be used to perform limited actions in Vault. These actions include 1) looking up information about the token, 2) renewing the token, 3) lookup the capabilities on a path, and 4) revoking the token.
+* When you use the Vault API to authenticate, the Vault API response will include a client_token that is tied to a specific policy. Once you receive that response, it is up to the user (or application) to parse that response and retrieve the token. Once the token is retrieved, a second API request needs to be sent to Vault to request the new PKI certificate.
+* Vault supports a single storage backend to store its encrypted data.
+* Tokens can be used on any platform since they are created and managed by Vault itself.
+* The PKI secrets engine generates dynamic X.509 certificates.
+* There are lots of benefits of using Integrated Storage as a storage backend for Vault. Introduced in Vault 1.4, Integrated Storage is a built-in solution that provides a highly available, durable storage backend without relying on any external systems. Integrated Storage uses the same underlying consensus protocol (RAFT) as Consul to handle cluster leadership and log management. All Vault data is stored locally on each node, and replicated to all other nodes in the cluster for high availability. It also reduces complexity since all configuration is done within Vault. No external systems to provision alongside Vault.
+* 
 
 
