@@ -164,6 +164,11 @@ Authorization: Bearer <token>
 * Tokens can be used on any platform since they are created and managed by Vault itself.
 * The PKI secrets engine generates dynamic X.509 certificates.
 * There are lots of benefits of using Integrated Storage as a storage backend for Vault. Introduced in Vault 1.4, Integrated Storage is a built-in solution that provides a highly available, durable storage backend without relying on any external systems. Integrated Storage uses the same underlying consensus protocol (RAFT) as Consul to handle cluster leadership and log management. All Vault data is stored locally on each node, and replicated to all other nodes in the cluster for high availability. It also reduces complexity since all configuration is done within Vault. No external systems to provision alongside Vault.
+* Legacy applications often suffer from the ability to integrate with modern platforms such as Vault. To assist with this, you can use the Vault Agent to authenticate and manage a Vault token automatically.
+* In fact, there are only three ways to create root tokens:
+  * The initial root token generated at vault operator init -- this token has no expiration
+  * By using another root token; a root token with an expiration cannot create a root token that never expires
+  * By using vault operator generate-root (example) with the permission of a quorum of unseal/recovery key holders
+* When you need Vault to store credentials that were created by a third-party platform, such as Active Directory or API keys from a partner website, you need to use the KV secrets engine. The KV secrets engine is the ONLY secrets engine that can actually store credentials in Vault.
+* Not all storage backends are created equal. Some support high availability, some do not.
 * 
-
-
