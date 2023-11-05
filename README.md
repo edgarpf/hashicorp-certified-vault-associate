@@ -171,4 +171,11 @@ Authorization: Bearer <token>
   * By using vault operator generate-root (example) with the permission of a quorum of unseal/recovery key holders
 * When you need Vault to store credentials that were created by a third-party platform, such as Active Directory or API keys from a partner website, you need to use the KV secrets engine. The KV secrets engine is the ONLY secrets engine that can actually store credentials in Vault.
 * Not all storage backends are created equal. Some support high availability, some do not.
-* 
+* Vault provides an easy way of re-wrapping encrypted data when a key is rotated. Using the rewrap API endpoint, a non-privileged Vault entity can send data encrypted with an older version of the key to have it re-encrypted with the latest version.
+* With every dynamic secret and service type authentication token, Vault creates a lease. A lease is metadata containing information such as time duration, renewability, and more.
+* When you are retrieving data on a KV Version 2 secrets engine, you must include the data/ prefix, since a KV V2 secrets engine splits data and metadata into different prefixes.
+* VAULT_ADDR is the environment variable that is used to specify the address of the Vault server expressed as a URL and port.
+* When using the Vault CLI, the default output is TABLE, but you can use the -format flag to specify another output format, such as a JSON or YAML.
+* The policy must also include the sudo capability in order to permit the user to rotate the encryption key for Vault. Alternatively, you can use a root token to perform this action.
+* The Transit secrets engine is used to encrypt data in transit. It does NOT store the data locally. It simply encrypts the data and returns the ciphertext to the requester.
+* To view information about a token, the command **vault token lookup** can be used on the CLI.
