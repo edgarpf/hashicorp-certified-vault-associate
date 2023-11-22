@@ -224,8 +224,32 @@ Authorization: Bearer <token>
 * Vault secrets engines are used to store, generate, or encrypt data.
 * When Vault is sealed, the only two options available are, viewing the vault status and unsealing the Vault.
 * **vault lease revoke -prefix <path>** will remove all secrets at a specific path.
-* 
-
-
-
-
+* Same auth methods can’t be enabled at the same paths.
+* The path **/auth/token/lookup-self** is used to get information about the current client token
+* The parameter **secret_id_num_uses** is used to set the maximum number of times that any particular SecretID can be used to fetch a token from the AppRole, after which the SecretID will expire.
+* The maximum allowed request size is 32MB.
+* Vault won’t store any data that has been encrypted with the help of a transit secret engine.
+* The command “vault secret move” is used to move an existing secrets engine to a new path. During this process, the leases associated with the secret engine are revoked, but the configuration associated with the engine is preserved.
+* vault secrets enable -max-lease-ttl=45m –path=mongodb database
+* The token accessor can only be used to perform limited actions which are as follows:
+  * Look up a token's properties (not including the actual token ID)
+  * Look up a token's capabilities on a path
+  * Renew the token
+  * Revoke the token
+* The root tokens can be created in any one of the following ways:
+  * The initial root token is generated at vault operator init time -- this token has no expiration.
+  * By using another root token, a root token with an expiration cannot create a root token that never expires.
+  * By using vault operator generate-root with the permission of a quorum of unseal key holders.
+  * By using the endpoint /sys/generate-root.
+* The environment variable **VAULT_ADDR** is used to set the address of the Vault server in the format of URL:PORT
+* Writing to a key in the cubbyhole secrets engine will completely replace the old value, and it won’t persist the old value.
+* The TOTP secrets engine can act as a TOTP code generator. It can replace traditional TOTP generators like Google Authenticator.
+* The port 8200 is used for the purpose of cluster bootstrapping in the Vault servers. Also, the port is used for Vault API communication.
+* The following storage backends are supported by Hashicorp:
+  * Consul
+  * Filesystem
+  * In-Memory
+  * Integrated Storage (Raft)
+* Vault Agent comes by default with the Vault binary file.
+* The cubbyhole secrets engine is used to achieve the cubbyhole response wrapping where the initial token is stored.
+* Vault does not store any of the unseal key shards in any persistent storage.
