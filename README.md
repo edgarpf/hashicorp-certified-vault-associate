@@ -179,3 +179,53 @@ Authorization: Bearer <token>
 * The policy must also include the sudo capability in order to permit the user to rotate the encryption key for Vault. Alternatively, you can use a root token to perform this action.
 * The Transit secrets engine is used to encrypt data in transit. It does NOT store the data locally. It simply encrypts the data and returns the ciphertext to the requester.
 * To view information about a token, the command **vault token lookup** can be used on the CLI.
+* When the vault initialize command is fired, the vault will give both unseal keys and root token. Root Token is not advised to be kept after the entire configuration becomes complete.
+* Vault can be unsealed by running the command “vault operator unseal”.
+* Vault can be initialized by running the command “vault operator init”.
+* Vault has two replications – Performance & DR.
+* To create a token: **curl \ --header "X-Vault-Token: ..." \ --request POST \ --data @payload.json \ http://127.0.0.1:8200/v1/auth/token/create**
+* Github is one of the auth methods available, and it can be enabled via **vault auth enabled Github**.
+* To change TTL to 1 hour use **vault lease renew -increment=3600 my-lease-id**.
+* **VAULT_TOKEN** is the environment variable used for the Vault authentication token.
+* Vault uses port 8200 for the API.
+* Create, Read, Update, Delete, List, Sudo, deny are the available capabilities for the policies.
+* **vault token create -no-default-policy** to create a token without a default policy.
+* Batch Token can’t be used to create tokens.
+* Root tokens may have a TTL associated, but the TTL may also be 0, indicating a token that never expires.
+* Wrapping Token is used for securing the secret zero when the App Role auth method is used.
+* **vault write transit/encrypt/<key_ring_name>** is the command to encrypt secrets.
+* **transit/decrypt/** is the endpoint to decrypt the ciphertext.
+* **vault secrets enable transit** is the command to enable the transit engine.
+* We are allowed to customize the mount points for each Auth Method that is enabled.
+* When an auth method is disabled, all users authenticated via that method are automatically logged out.
+* Read Capability should be defined in the policy by mentioning only Read in the syntax.
+* Default policies cannot be removed directly. The default policy is a built-in Vault policy that cannot be removed. By default, it is attached to all tokens, but may be explicitly excluded at token creation time by supporting authentication methods.
+* The AppRole auth method allows machines or apps to authenticate with Vault-defined roles.
+* **auth/token/revoke-orphan** is the endpoint to revoke the orphan.
+* Transit Secret engine handles cryptographic functions on data in transit.
+* PKI secrets engine generates dynamic X.509 certificates.
+* By default, any token generated from the Parent inherits the parent policies.
+* Root Token generated during initialization has no expiry by default. Root tokens cannot be used to generate another Root token with expiry.
+* Correct syntax to read the secrets in KV using API is **/secret/data/:path?version=:version-number**.
+* **curl \ --header "X-Vault-Token: ..." \ http://127.0.0.1:8200/v1/cubbyhole/my-secret**  is the right curl command to read secrets with the cubbyhole secrets engine.
+* The lease & lease_max are the right parameters for defining the leases.
+* KMIP engine requires Vault Enterprise with the Advanced Data Protection Module.
+* **http://127.0.0.1:8200/ui** is the default location of the vault UI.
+* The cubbyhole secrets engine is enabled by default. It cannot be disabled, moved, or enabled multiple times.
+* By default, Vault enables Key/Value version2 secrets engine (KV-v2) at the path secret/ when running in dev mode.
+* During the encryption of Ciphertext, the v1 in the command denotes to the version of encryption key used.
+* **vault write transit/keys/orders/config min_decryption_version=4** enforces the use of a specific version of the encryption key during decryption operation.
+* We can have a mount that is prefixed with an existing mount when creating secret engines because the mount prefix is unique in nature.
+* You can move the secret to a different path using the move parameter.
+* **allowed_parameters** is used to whitelist the keys and values through Vault Policy.
+* The token can be generated with the limitation enforced on the number of uses
+* Vault operator can create external and internal groups.
+* The **vault login** is used for logging in to vault CLI.
+* Vault secrets engines are used to store, generate, or encrypt data.
+* When Vault is sealed, the only two options available are, viewing the vault status and unsealing the Vault.
+* **vault lease revoke -prefix <path>** will remove all secrets at a specific path.
+* 
+
+
+
+
